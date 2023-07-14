@@ -79,11 +79,11 @@ export const Home = (props) => {
 };
 
 const socials = [
-    { icon: 'https://www.myetherwallet.com/img/facebook.b3e1260a.png', name: 'Facebook' },
-    { icon: 'https://www.myetherwallet.com/img/twitter.4021904f.jpg', name: 'Twitter' },
-    { icon: 'https://www.myetherwallet.com/img/reddit.342a12c2.svg', name: 'Reddit' },
-    { icon: 'https://www.myetherwallet.com/img/github.ea0dc6d2.png', name: 'Github' },
-    { icon: 'https://www.myetherwallet.com/img/youtube.2bd2c7d9.png', name: 'Youtube' },
-    { icon: 'https://www.myetherwallet.com/img/instagram.86f33cfc.png', name: 'Instagram' },
-    { icon: 'https://www.myetherwallet.com/img/telegram.39a27915.svg', name: 'Telegram' }
+    { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png', name: 'Facebook' },
+    { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png?20220821125553', name: 'Twitter' },
+    { icon: 'https://www.redditinc.com/assets/images/site/reddit-logo.png', name: 'Reddit' },
+    { icon: 'https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg', name: 'Github' },
+    { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png', name: 'Youtube' },
+    { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png', name: 'Instagram' },
+    { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png', name: 'Telegram' }
 ];

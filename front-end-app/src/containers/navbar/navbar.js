@@ -69,14 +69,14 @@ export const Navbar = (props) => {
         <div className={`navbar row ${props.className}`}>
             <div className='navbar__container'>
                 <Link to='/' className='navbar__container__logo'>
-                    <img src='https://www.myetherwallet.com/img/short-hand-logo-web.5d962d4e.png'></img>
+                    <img src='https://www.myetherwallet.com/img/logo-mew.f6482e98.svg'></img>
                 </Link>
                 <ul className='navbar__container__items'>
                     <li><div className='buy-MC' onClick={handleBuyMC}>
                         <div className='buy-MC__image'>
-                            <img src='https://www.myetherwallet.com/img/buy-eth.75fcd9b0.svg'></img>
+                            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ethereum_logo_2014.svg/1257px-Ethereum_logo_2014.svg.png' style={{height : 25}}></img>
                         </div>
-                        <p className='buy-MC__text'>Buy MC</p>
+                        <p className='buy-MC__text' style={{margin: 10}}>Buy MC</p>
                     </div>
                     </li>
                     <li><Link to='/#about'>About</Link></li>

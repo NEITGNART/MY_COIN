@@ -15,7 +15,7 @@ export const TopSection = (props) => {
                                 </div>
                     </div>
                     <div className='top-section__image'>
-                        <img src='https://www.myetherwallet.com/img/mew-icon.de3130df.png'></img>
+                        <img src='https://www.myetherwallet.com/img/bg-home-spaceman-and-dog.313ea5b0.svg'></img>
                     </div>
                 </div>
             </div>

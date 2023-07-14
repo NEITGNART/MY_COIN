@@ -67,7 +67,7 @@ export const SoftwareContainer = (props) => {
                     <input ref={fileInputRef} type='file' style={{ display: 'none' }} onChange={handleSelectedFile}></input>
                     <div data-id='1' className='wallet-option' onClick={(e) => handleClickOption(e, 'Keystore File')}>
                         <div className='wallet-option__image'>
-                            <img src='https://www.myetherwallet.com/img/button-json-hover.c5b6010e.svg'></img>
+                            <img src='https://www.myetherwallet.com/img/icon-keystore-file.956cbf72.svg'></img>
                         </div>
                         <p className='wallet-option__name'>Keystore File</p>
                         <i class="fa fa-check-circle fa-2x wallet-option__icon" aria-hidden="true"></i>
@@ -75,7 +75,7 @@ export const SoftwareContainer = (props) => {
 
                     <div data-id='2' className='wallet-option' onClick={(e) => handleClickOption(e, 'Private key')}>
                         <div className='wallet-option__image'>
-                            <img src='https://www.myetherwallet.com/img/button-key-hover.c1cbfefc.svg'></img>
+                            <img src='https://www.myetherwallet.com/img/icon-mnemonic.7c3d34fc.svg'></img>
                         </div>
                         <p className='wallet-option__name'>Private key</p>
                         <i class="fa fa-check-circle fa-2x wallet-option__icon" aria-hidden="true"></i>
@@ -88,7 +88,6 @@ export const SoftwareContainer = (props) => {
             </div>
             <div className='basic-button button--icon-hidden' onClick={handleContinueStep}>Continue</div>
             <div className='support'>
-                <img src='https://www.myetherwallet.com/img/help-center.fc8a5621.svg' className='support__icon'></img>
                 <h5 className='support__label'>Customer Support</h5>
             </div>
 

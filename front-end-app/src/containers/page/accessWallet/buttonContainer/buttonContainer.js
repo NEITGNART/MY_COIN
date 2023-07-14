@@ -96,7 +96,7 @@ export const ButtonContainer = (props) => {
                     return (
                         <div data-id={index + 1} className={`btn-block ${item.style}`} onClick={(e)=>handleBtnClick(e, item.title)} >
                             <div className='btn-block__image'>
-                                <img src={item.srcImg}></img>
+                                <img src={item.srcImg} style={{height: 70, width: 70}}></img>
                             </div>
                             <h3 className='btn-block__title'>{item.title}</h3>
                             <p className='btn-block__desc'>{item.desc}</p>
@@ -138,7 +138,6 @@ export const ButtonContainer = (props) => {
                                                     <Input onChangeText={(e) => {setAccessWalletText(e.target.value)}} placeHolder='Enter password' type='password'></Input>
                                                     <div className={`basic-button ${(accessWalletText.length < 9)? 'button--disabled' : ''}`} onClick={handleAccessWallet}>Accesss Wallet</div>
                                                     <div className='support'>
-                                                        <img src='https://www.myetherwallet.com/img/help-center.fc8a5621.svg' className='support__icon'></img>
                                                         <h5 className='support__label'>Customer Support</h5>
                                                     </div>
                                                 </div>
@@ -150,7 +149,6 @@ export const ButtonContainer = (props) => {
                                                     <div className={`basic-button ${(accessWalletText.length < 34)? 'button--disabled' : ''}`} 
                                                         onClick={handleAccessWallet}>Accesss Wallet</div>
                                                     <div className='support'>
-                                                        <img src='https://www.myetherwallet.com/img/help-center.fc8a5621.svg' className='support__icon'></img>
                                                         <h5 className='support__label'>Customer Support</h5>
                                                     </div>
                                                 </div>
@@ -172,7 +170,7 @@ export const ButtonContainer = (props) => {
 
 
 const btnData = [
-    { srcImg: 'https://www.myetherwallet.com/img/button-hardware.945afa77.svg', style: '', title: 'Hardware', desc: ' Ledger wallet, FINNEY, Trezor, BitBox, Secalot, KeepKey, XWallet ', subNote: '' },
-    { srcImg: 'https://www.myetherwallet.com/img/button-web3.dc2ff19c.svg', style: '', title: 'MEW CX', desc: ' MetaMask; Dapper ', subNote: '' },
-    { srcImg: 'https://www.myetherwallet.com/img/button-software.2a233dbf.svg', style: 'btn-danger', title: 'Software', desc: ' Keystore file, Private key, Mnemonic phrase ', subNote: 'Not recommended' }
+    { srcImg: 'https://www.myetherwallet.com/img/icon-hardware-wallet.78248a8e.png', style: '', title: 'Hardware', desc: ' Ledger wallet, FINNEY, Trezor, BitBox, Secalot, KeepKey, XWallet ', subNote: '' },
+    { srcImg: 'https://www.myetherwallet.com/img/icon-extensions.fbf7b80e.png', style: '', title: 'MEW CX', desc: ' MetaMask; Dapper ', subNote: '' },
+    { srcImg: 'https://www.myetherwallet.com/img/bg-home-spaceman-and-dog.313ea5b0.svg', style: 'btn-danger', title: 'Software', desc: ' Keystore file, Private key, Mnemonic phrase ', subNote: 'Not recommended' }
 ];

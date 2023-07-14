@@ -16,7 +16,7 @@ export const Intro = (props) => {
                     </div>
                 </div>
                 <div className='intro__image'>
-                    <img src='https://www.myetherwallet.com/img/big-spaceman.1b378c1b.png'></img>
+                    <img src='https://www.myetherwallet.com/img/bg-home-spaceman-and-dog.313ea5b0.svg'></img>
                 </div>
             </div>
 

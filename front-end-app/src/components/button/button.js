@@ -5,9 +5,9 @@ export const Button = (props) => {
 
     return (
         <div className={`button ${props.className}`}>
-            <div className='button__icon'>
-                <img src={props.srcIcon}></img>
-            </div>
+            {/*<div className='button__icon'>*/}
+            {/*    <img src={props.srcIcon}></img>*/}
+            {/*</div>*/}
             <div className='button__content'>
                 <div className='text-content'>
                     <div className='title'>

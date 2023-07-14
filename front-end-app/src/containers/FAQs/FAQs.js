@@ -1,6 +1,7 @@
 import './style.scss';
 import React from 'react';
 import { Expander } from '../../components/expander/expander';
+import Phone from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/phone.png'
 
 export const FAQs = (props) => {
     return (
@@ -12,7 +13,7 @@ export const FAQs = (props) => {
                             <h5>Have not found the question that you are looking for? <span>see more...</span></h5>
                         </div>
                         <div className='support'>
-                            <img src='https://www.myetherwallet.com/img/help-center.fc8a5621.svg' className='icon'></img>
+                            <img src={Phone} style={{height: 50, width: 50}} className='icon'></img>
                             <h5 className='label'>Customer Support</h5>
                         </div>
                     </div>
