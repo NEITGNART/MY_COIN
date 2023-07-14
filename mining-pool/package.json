@@ -1,0 +1,28 @@
+{
+  "name": "main-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VuNam1812/my-coin-blockchain.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VuNam1812/my-coin-blockchain/issues"
+  },
+  "homepage": "https://github.com/VuNam1812/my-coin-blockchain#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
+    "elliptic": "^6.5.4",
+    "express": "^4.17.1",
+    "socket.io": "^4.0.1"
+  }
+}

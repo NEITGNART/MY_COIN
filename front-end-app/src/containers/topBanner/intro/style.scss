@@ -1,0 +1,23 @@
+@import '../../../styleRoot/color.scss';
+
+.intro{
+    margin-top: 2rem;
+    min-height: 30vh;
+    display: flex;
+    .text{
+        text-align: left;
+        color: $--main-1;
+        padding: 6rem 0.5rem 1rem 1rem;
+        &__title{
+            p {
+            font-weight: bolder;
+            font-size: 2.5rem;
+            font-family: 'Open Sans';
+            margin-bottom: 1rem;
+            }
+        }
+        &__description{
+            font-size: 0.85rem;
+        }
+    }
+}
