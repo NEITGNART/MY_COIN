@@ -16,7 +16,7 @@ class Blockchain {
         this.pendingTransactions = [];
         this.unspentTxOuts = [];
         this.nodes = [];
-        this.difficult = 3;
+        this.difficult = 2;
         this.canMine = false;
         this.reward = 10;
         this.minimumTx = 3;
@@ -115,6 +115,9 @@ class Blockchain {
     }
 
     chainIsValid(blockchain) {
+
+        console.log('blockchain', blockchain[0]);
+        console.log('genesisBlock', this.getGenesisBlock());
         if (JSON.stringify(blockchain[0]) !== JSON.stringify(this.getGenesisBlock())) {
             console.log('genesisBlock not valid!!');
             return false;
@@ -183,7 +186,7 @@ class Blockchain {
     }
 
     getGenesisBlock() {
-        let newBlock = new Block(1, '0', '', [], '00:00:01, 01/01/2021', this.difficult, 0);
+        let newBlock = new Block(1, '0', '', [], '00:00:01, 01/01/2023', this.difficult, 0);
 
         newBlock.hash = this.hashBlock(
             newBlock.index,

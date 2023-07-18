@@ -1,103 +1,157 @@
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
-const socketio = require('socket.io');
-const {Blockchain, systemKey, enumSysSender} = require('./src/core/blockchain');
-const socketEvt = require('./src/core/sockEvt');
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
+const socketio = require("socket.io");
+const {
+  Blockchain,
+  systemKey,
+  enumSysSender,
+} = require("./src/core/blockchain");
+const socketEvt = require("./src/core/sockEvt");
 const app = express();
-const axios = require('axios');
-require('dotenv').config({path: __dirname + '/.env' })
+const axios = require("axios");
+require("dotenv").config({ path: __dirname + "/.env" });
 
 // Create a server
 const PORT = process.env.PORT || 8080;
+const P2P_PORT = process.env.P2P_PORT || 5001;
 
 app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
-const io = socketio(server,{
-    cors: {
-        origin : '*',
-      methods: ["GET", "POST"]
-    }
-  });
+const io = socketio(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 // Create a blockchain instance
 const blockchain = new Blockchain(io);
 
-
 // Create a route
-app.get('/', (req, res) => {
-    res.send('hello world!!');
-})
+app.get("/", (req, res) => {
+  res.send("hello world!!");
+});
 
-app.get('/blocks', (req,res) => {
-        
-    res.json(blockchain.getBlockChain());
-})
+app.get("/blocks", (req, res) => {
+  res.json(blockchain.getBlockChain());
+});
 
-app.post('/transactions', (req,res) => {
-    blockchain.addTransaction((req.body));
-    io.emit(socketEvt.ADD_TRANSACTION, (req.body));
-    if (blockchain.checkMine()){
-        blockchain.setMine(true);
-        setTimeout(() => { 
-            const lastBlock = blockchain.getLastBlock();
-            io.emit(socketEvt.START_MINING, ({index: lastBlock.index+1,transactions: blockchain.getPendingTransactions(), timeStamp: new Date().toString(), prevHash: lastBlock.hash}));
-        }, 1000);
-    }
-    res.json({ message: 'add transaction success' }).end();
-})
+app.post("/transactions", (req, res) => {
+  blockchain.addTransaction(req.body);
+  io.emit(socketEvt.ADD_TRANSACTION, req.body);
+  if (blockchain.checkMine()) {
+    blockchain.setMine(true);
+    setTimeout(() => {
+      const lastBlock = blockchain.getLastBlock();
+      io.emit(socketEvt.START_MINING, {
+        index: lastBlock.index + 1,
+        transactions: blockchain.getPendingTransactions(),
+        timeStamp: new Date().toString(),
+        prevHash: lastBlock.hash,
+      });
+    }, 1000);
+  }
+  res.json({ message: "add transaction success" }).end();
+});
 
-app.post('/transactions/buycoin',async (req,res)=>{
-    const {address, amount} = req.body;
+app.post("/stop-mining", (req, res) => {
+  const { result } = req.body;
+  blockchain.setMine(false);
+  blockchain.addBlock(result);
+  io.emit(socketEvt.END_MINING, result);
+  io.emit(socketEvt.UPDATE_TRANSACTION, {});
+  res.json({ message: "stop mining" }).end();
+});
 
-    const systemSend = await blockchain.generateTransaction(enumSysSender.COIN_SYSTEM, address, amount, systemKey.getPrivate('hex'));
-    await axios.post(`http://localhost:${PORT}/transactions`, systemSend);
+app.post("/transactions/buycoin", async (req, res) => {
+  const { address, amount } = req.body;
 
-    res.json({ message: 'add transaction success' }).end();
-})
+  const systemSend = await blockchain.generateTransaction(
+    enumSysSender.COIN_SYSTEM,
+    address,
+    amount,
+    systemKey.getPrivate("hex")
+  );
+  await axios.post(`http://localhost:${PORT}/transactions`, systemSend);
+  await axios.post(`http://localhost:${P2P_PORT}/transactions`, systemSend);
+  res.json({ message: "add transaction success" }).end();
+});
 
-app.get('/transactions/:address', (req,res)=>{
-    res.json(blockchain.getTransactionsByAddress(req.params.address));
-})
+app.get("/transactions/:address", (req, res) => {
+  res.json(blockchain.getTransactionsByAddress(req.params.address));
+});
 
-app.get('/blocks/lastblock', (req,res)=> {
-    res.json({lastBlock: blockchain.getLastBlock()});
-})
+app.get("/blocks/lastblock", (req, res) => {
+  res.json({ lastBlock: blockchain.getLastBlock() });
+});
 
-app.get('/hashblocks/:id', (req,res)=> {
-    res.json({hash: blockchain.hashBlock(blockchain.blocks[+req.params.id])});
-})
+app.get("/hashblocks/:id", (req, res) => {
+  res.json({ hash: blockchain.hashBlock(blockchain.blocks[+req.params.id]) });
+});
 
-app.get('/balance/:address', (req,res)=> {
-    res.json({balance: blockchain.getBalance(req.params.address)});
-})
+app.get("/balance/:address", (req, res) => {
+  res.json({ balance: blockchain.getBalance(req.params.address) });
+});
 
-app.get('/unspentTxOuts', (req,res)=> {
-    res.json({unspentTxOuts: blockchain.getUnspentTxOuts()});
-})
+app.get("/unspentTxOuts", (req, res) => {
+  res.json({ unspentTxOuts: blockchain.getUnspentTxOuts() });
+});
 
-app.get('/pendingTransactions', (req,res) => {
-    res.json({pendingTransactions: blockchain.getPendingTransactions()});
-})
+app.get("/pendingTransactions", (req, res) => {
+  res.json({ pendingTransactions: blockchain.getPendingTransactions() });
+});
 
-io.on('connection', (socket) => {
-    console.log(`Socket connected, ID: ${socket.id}`);
-    blockchain.addNode(socket);
-    socket.emit(socketEvt.ADD_NODE, {blocks: blockchain.getBlockChain(),
-                                    pendingTransactions: blockchain.getPendingTransactions(),
-                                    unspentTxOuts: blockchain.getUnspentTxOuts() });
-    socket.on(socketEvt.BROADCAST_ENDMINING, ({result})=>{
-        console.log(`broadcast ${socket.id}`);
-        blockchain.setMine(false);
-        blockchain.addBlock(result);
-        socket.broadcast.emit(socketEvt.END_MINING, result);
-        io.emit(socketEvt.UPDATE_TRANSACTION, ({}));
-    })
-    socket.on('disconnect', () => {
-        blockchain.deleteNode(socket);
-        console.log(`Socket disconnected, ID: ${socket.id}`);
-    })
-})
+io.on("connection", (socket) => {
+  console.log(`Socket connected, ID: ${socket.id}`);
+  blockchain.addNode(socket);
+  console.log(`Current nodes: ${blockchain.nodes.length}`);
+  socket.emit(socketEvt.ADD_NODE, {
+    blocks: blockchain.getBlockChain(),
+    pendingTransactions: blockchain.getPendingTransactions(),
+    unspentTxOuts: blockchain.getUnspentTxOuts(),
+  });
 
-server.listen(PORT , () => { console.info(`Express server running on https://localhost:${PORT}`);})
+  // stop mining
+  socket.on(socketEvt.BROADCAST_ENDMINING, ({ result }) => {
+    console.log(`broadcast ${socket.id}`);
+    blockchain.setMine(false);
+    blockchain.addBlock(result);
+    socket.broadcast.emit(socketEvt.END_MINING, result);
+    io.emit(socketEvt.UPDATE_TRANSACTION, {});
+  });
+
+  // parse chain
+  socket.on(socketEvt.PARSE_CHAIN, ({ blocks }) => {
+    blockchain.parseChain(blocks);
+    io.emit(socketEvt.UPDATE_TRANSACTION, {});
+  });
+
+  socket.on("disconnect", () => {
+    blockchain.deleteNode(socket);
+    console.log(`Socket disconnected, ID: ${socket.id}`);
+    console.log(`Current nodes: ${blockchain.nodes.length}`);
+  });
+
+  //   socket.on(socketEvt.ADD_TRANSACTION, (transaction) => {
+  //     blockchain.addTransaction(transaction);
+  //     io.emit(socketEvt.ADD_TRANSACTION, transaction);
+  //     if (blockchain.checkMine()) {
+  //       blockchain.setMine(true);
+  //       setTimeout(() => {
+  //         const lastBlock = blockchain.getLastBlock();
+  //         io.emit(socketEvt.START_MINING, {
+  //           index: lastBlock.index + 1,
+  //           transactions: blockchain.getPendingTransactions(),
+  //           timeStamp: new Date().toString(),
+  //           prevHash: lastBlock.hash,
+  //         });
+  //       }, 1000);
+  //     }
+  //   });
+});
+
+server.listen(PORT, () => {
+  console.info(`Express server running on https://localhost:${PORT}`);
+});
