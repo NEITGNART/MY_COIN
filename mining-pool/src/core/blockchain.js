@@ -16,7 +16,7 @@ class Blockchain {
         this.pendingTransactions = [];
         this.unspentTxOuts = [];
         this.nodes = [];
-        this.difficult = 3;
+        this.difficult = 2;
         this.canMine = false;
         this.reward = 10;
         this.minimumTx = 3;
@@ -49,17 +49,30 @@ class Blockchain {
         })
     }
 
+
     generateTransaction(sender, recipient, amount, privateKey){
+        // create a transaction instace
         const newTransaction = new Transaction();
+        // get all uTxOuts by address by loops through all outputs transaction in blockchain and status = 1
+        // status = 1 mean this output transaction is not used in any transaction
         const uTxOutsByAddress = this.getUTxOutsByAddress(sender);
+
+        // check balance of this sender must be greater than amount
         if (!this.checkBalance(amount, sender)) {
             console.log('not enought money!!!');
             return;
         }
+        // Let's create a new transaction
+
+
+        // Take outputs transaction by address and amount to create inputs transaction
         const txIns = newTransaction.gererateTxIns(sender, amount, uTxOutsByAddress);
+        // Let's create a output transaction 
         newTransaction.gererateTxOuts(sender, recipient, txIns.txInBalance, amount);
+        // Create a hash for this transaction
         const hashTx = newTransaction.hashTransaction();
         newTransaction.updateTxOuts(hashTx);
+        // Sign all inputs transaction
         newTransaction.signAllTxIns(privateKey, uTxOutsByAddress);
         return newTransaction;
     }
@@ -161,7 +174,6 @@ class Blockchain {
         if (+Balance < +amount) {
             return false;
         }
-
         return true;
     }
 
@@ -183,7 +195,7 @@ class Blockchain {
     }
 
     getGenesisBlock() {
-        let newBlock = new Block(1, '0', '', [], '00:00:01, 01/01/2021', this.difficult, 0);
+        let newBlock = new Block(1, '0', '', [], '00:00:01, 01/01/2023', this.difficult, 0);
 
         newBlock.hash = this.hashBlock(
             newBlock.index,
@@ -386,6 +398,7 @@ class Transaction {
         const stringTxIn = this.txIns.map(txIn => {
             return txIn.txOutId + txIn.txOutIndex
         }).reduce((a, b) => a + b, '');
+
         const stringTxOut = this.txOuts.map(txOut => {
             return txOut.amount.toString() + txOut.address
         }).reduce((a, b) => a + b, '');
@@ -427,24 +440,23 @@ class Transaction {
         };
     }
 
+    
     gererateTxOuts(sender, recipient, txInBalance, amount) {
         const txOuts = [];
-
+        // If sender is system, only one txOut
         if (systemSender.includes(sender)) {
             const uTxOut = new UnspentTxOut({ address: recipient, amount: +amount });
             txOuts.push(uTxOut);
         } else {
+            // If sender is not system, two txOuts depends that redundant or not
             const uTxOut = new UnspentTxOut({ address: recipient, amount: +amount });
             txOuts.push(uTxOut);
             const refund = txInBalance - amount;
-
             if (refund > 0) {
                 const uTxOutrefund = new UnspentTxOut({ address: sender, amount: refund });
-
                 txOuts.push(uTxOutrefund);
             }
         }
-
 
         this.txOuts = txOuts;
         return txOuts;

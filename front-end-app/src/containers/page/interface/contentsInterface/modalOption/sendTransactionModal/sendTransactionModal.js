@@ -27,7 +27,8 @@ export const SendTransactionModal = (props) => {
         
         const newTx = blockchain.generateTransaction(pubKey, receive, transaction.amount, priKey);
 
-        axios.post('http://localhost:8080/transactions', newTx).then((res) => {
+        const PORT=process.env.REACT_APP_API_PORT || 8080;
+        axios.post(`http://localhost:${PORT} /transactions`, newTx).then((res) => {
             props.setupModal(enumState.CLOSE);
             setTimeout(()=> {
                 props.setupModal(enumState.VISIBLE);

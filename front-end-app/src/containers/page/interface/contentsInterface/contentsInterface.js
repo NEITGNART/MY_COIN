@@ -15,6 +15,12 @@ import { authContext } from '../../../../contexts/authContext';
 
 import { WalletModal, LogoutModal, SendTransactionModal } from './modalOption';
 
+// import BalanceAccountIcon from '../../../../assets/Icon/balance_account.png';
+import BlockChainIcon from '../../../../assets/Icon/blockchain.png';
+import Wallet from '../../../../assets/Icon/wallet.png';
+
+
+
 const enumState = {
     HIDDEN: 'hidden',
     CLOSE: 'close',
@@ -35,7 +41,9 @@ const enumOptionMine = {
 }
 
 let socket,blockchain;
-const server = 'http://localhost:8080';
+const PORT = process.env.REACT_APP_API_PORT || 8080;
+console.log('PORT', PORT);
+const server = `http://localhost:${PORT}`;
 export const ContentsInterface = (props) => {
     const history = useHistory();
 
@@ -91,7 +99,6 @@ export const ContentsInterface = (props) => {
                         await blockchain.addBlock(result);
     
                         setStateMine(enumOptionMine.SUCCESS);
-                        
                         setPendingTx(blockchain.getPendingTransactions().length);
                         setBalance(blockchain.getBalance(myWallet.publicKey.substring(2, myWallet.publicKey.length)));
                         setLastBlockIndex(blockchain.getLastBlock().index);
@@ -103,14 +110,12 @@ export const ContentsInterface = (props) => {
                 });
             });
             socket.on(socketEvt.END_MINING, async (newBlock) => {
-                
                 blockchain.setMine(false);    
                 await blockchain.addBlock(newBlock);
                 setStateMine(enumOptionMine.FAIL);
                 setPendingTx(blockchain.getPendingTransactions().length);
                 setBalance(blockchain.getBalance(myWallet.publicKey.substring(2, myWallet.publicKey.length)));
                 setLastBlockIndex(blockchain.getLastBlock().index);
-    
                 setTimeout(()=>{
                     setStateMine(enumOptionMine.HIDDEN);
                 },3000);
@@ -157,14 +162,14 @@ export const ContentsInterface = (props) => {
                             <p className='text__desc'>{myWallet.publicKey}</p>
                         </div>
                         <div className='content-item__subIcon' onClick={handleClickBtnInfo}>
-                            <img src='https://www.myetherwallet.com/img/more.f9583c86.svg'></img>
+                            <i className='fa fa-info-circle fa-fw'></i>
                         </div>
                     </div>
                 </div>
 
-                <div className='content-item item--border-none item--color-submain'>
+                <div className='content-item  item--color-submain'>
                     <div className='content-item__image'>
-                        <img src='https://www.myetherwallet.com/img/wallet.66b8433e.svg'></img>
+                        <img src={Wallet}  style={{ width: '100%', height: '100%', borderRadius: '50%' }} ></img>
                     </div>
                     <div className='content-item__main'>
    
@@ -182,7 +187,7 @@ export const ContentsInterface = (props) => {
 
                 <div className='content-item'>
                     <div className='content-item__image'>
-                        <img src='https://www.myetherwallet.com/img/eth-logo.7fe75c25.svg'></img>
+                        <img src={BlockChainIcon}  style={{ width: '100%', height: '100%', borderRadius: '50%' }} ></img>
                     </div>
                     <div className='content-item__main'>
                         <div className='text'>

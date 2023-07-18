@@ -8,6 +8,7 @@ import {authContext} from '../../contexts/authContext';
 import numeral from 'numeral';
 import axios from 'axios';
 
+
 const enumState = {
     HIDDEN: 'hidden',
     CLOSE: 'close',
@@ -15,6 +16,7 @@ const enumState = {
 }
 
 const baseTrans = 18000;
+const PORT = process.env.REACT_APP_API_PORT || 8080;
 
 export const Navbar = (props) => {
     const {myWallet} = useContext(authContext);
@@ -53,8 +55,7 @@ export const Navbar = (props) => {
 
     const handleBuyCoin = async () => {
         setModalState(enumState.CLOSE);
-
-        await axios.post('http://localhost:8080/transactions/buycoin', {
+        await axios.post(`http://localhost:${PORT}/transactions/buycoin`, {
             address: address.substring(2, address.length),
             amount: amount
         })

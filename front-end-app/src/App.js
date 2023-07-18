@@ -10,7 +10,7 @@ import {CreateWallet} from '../src/containers/page/createWallet/createWallet';
 import {AccessWallet} from '../src/containers/page/accessWallet/accessWallet';
 import {Interface} from '../src/containers/page/interface/interface';
 
-import {AuthProvider} from '../src/contexts/authContext';
+import {AuthProvider} from './contexts/authContext';
 
 function App() {
     return (<div className="App">
@@ -34,7 +34,6 @@ function App() {
                 </Switch>
             </div>
         </AuthProvider>
-        <Footer></Footer>
     </div>);
 }
 

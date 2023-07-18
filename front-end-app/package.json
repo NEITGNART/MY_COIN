@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "crypto-js": "^4.0.0",
     "datatables.net": "^1.10.24",
+    "dotenv": "^16.3.1",
     "elliptic": "^6.5.4",
     "filereader": "^0.10.3",
     "hex-to-binary": "^1.0.1",

@@ -1,6 +1,11 @@
 // @flow 
 import CryptoJS from 'crypto-js';
 import EC from 'elliptic';
+import Share from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/assets/Icon/share.svg'
+import Alert from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/assets/Icon/alert.svg'
+import Backup from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/assets/Icon/backup.svg'
+
+
 
 import React, {useState, useContext, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
@@ -45,7 +50,6 @@ export const SaveWallet = (props) => {
     }
 
     const dowloadKeystore = () => {
-       
         const fileName = `keystore-wallet-${Date.now()}.json`;
         const passHash = CryptoJS.SHA256(password).toString();
         const Key = ec.genKeyPair();
@@ -108,7 +112,7 @@ export const SaveWallet = (props) => {
 };
 
 const contentBlocks = [
-    {srcImg: 'https://www.myetherwallet.com/img/no-lose.ef5e7643.svg', title: 'Don\'t Lose It', desc: 'Be careful, it can not be recovered if you lose it.'},
-    {srcImg: 'https://www.myetherwallet.com/img/no-share.295ef578.svg', title: 'Don\'t Share It', desc: 'Your funds will be stolen if you use this file on a malicious phishing site.'},
-    {srcImg: 'https://www.myetherwallet.com/img/make-a-backup.e461a34b.svg', title: 'Make a Backup', desc: 'Secure it like the millions of dollars it may one day be worth.'}
+    {srcImg: Alert  , title: 'Don\'t Lose It', desc: 'Be careful, it can not be recovered if you lose it.'},
+    {srcImg: Share, title: 'Don\'t Share It', desc: 'Your funds will be stolen if you use this file on a malicious phishing site.'},
+    {srcImg: Backup, title: 'Make a Backup', desc: 'Secure it like the millions of dollars it may one day be worth.'}
 ]

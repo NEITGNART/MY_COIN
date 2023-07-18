@@ -14,6 +14,7 @@ const enumState = {
     VISIBLE: 'visible'
 }
 
+const PORT = process.env.REACT_APP_API_PORT || 8080;
 
 export const HistoryTransaction = ({pendingTx, stateMine}) => {
     
@@ -27,9 +28,8 @@ export const HistoryTransaction = ({pendingTx, stateMine}) => {
 
     useEffect(() => {
         const fetchDate = async () => {
-            const result = await axios.get(`http://localhost:8080/transactions/${myWallet.publicKey.substring(2, myWallet.publicKey.length)}`);
+            const result = await axios.get(`http://localhost:${PORT}/transactions/${myWallet.publicKey.substring(2, myWallet.publicKey.length)}`);
             setTransactions(result.data.sort((a,b) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()));
-            
         }
         fetchDate();
     }, [pendingTx]);
@@ -38,6 +38,8 @@ export const HistoryTransaction = ({pendingTx, stateMine}) => {
         setTableData(transactions.slice(0, 10));
         setupPagination();
     }, [transactions])
+
+    
     const setupPagination = () => {
         const subPage = (transactions.length % 10 > 0)? 1 : 0;
         const numPage = parseInt(transactions.length / 10) + subPage;

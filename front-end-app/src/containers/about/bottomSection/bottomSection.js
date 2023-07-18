@@ -1,8 +1,8 @@
 // @flow 
 import * as React from 'react';
 import './style.scss';
-import Wallet from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/wallet.png'
-import Swap from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/swap.png'
+import Wallet from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/assets/Icon/wallet.png'
+import Swap from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/assets/Icon/swap.png'
 
 export const BottomSection = (props) => {
     return (

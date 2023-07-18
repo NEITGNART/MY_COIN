@@ -1,7 +1,7 @@
 import './style.scss';
 import React from 'react';
 import { Expander } from '../../components/expander/expander';
-import Phone from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/phone.png'
+import Phone from '/Users/lucky/WebstormProjects/my-coin-blockchain/front-end-app/src/assets/Icon/phone.png'
 
 export const FAQs = (props) => {
     return (

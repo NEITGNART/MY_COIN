@@ -6,20 +6,26 @@ const {Blockchain, systemKey, enumSysSender} = require('./src/core/blockchain');
 const socketEvt = require('./src/core/sockEvt');
 const app = express();
 const axios = require('axios');
+require('dotenv').config({path: __dirname + '/.env' })
 
+// Create a server
 const PORT = process.env.PORT || 8080;
+
 app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
 const io = socketio(server,{
     cors: {
-      origin: [`http://localhost:3000`, `http://192.168.43.217:3000`],
+        origin : '*',
       methods: ["GET", "POST"]
     }
   });
 
+// Create a blockchain instance
 const blockchain = new Blockchain(io);
 
+
+// Create a route
 app.get('/', (req, res) => {
     res.send('hello world!!');
 })
@@ -46,7 +52,7 @@ app.post('/transactions/buycoin',async (req,res)=>{
     const {address, amount} = req.body;
 
     const systemSend = await blockchain.generateTransaction(enumSysSender.COIN_SYSTEM, address, amount, systemKey.getPrivate('hex'));
-    await axios.post('http://localhost:8080/transactions', systemSend);
+    await axios.post(`http://localhost:${PORT}/transactions`, systemSend);
 
     res.json({ message: 'add transaction success' }).end();
 })
