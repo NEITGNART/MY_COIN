@@ -16,10 +16,10 @@ class Blockchain {
     this.pendingTransactions = [];
     this.unspentTxOuts = [];
     this.nodes = [];
-    this.difficult = 2;
+    this.difficult = 3;
     this.canMine = false;
-    this.reward = 10;
-    this.minimumTx = 3;
+    this.reward = 1;
+    this.minimumTx = 1;
     this.blocks = [this.getGenesisBlock()];
     this.io = io;
   }
@@ -217,7 +217,7 @@ class Blockchain {
   }
 
   checkMine() {
-    if (this.pendingTransactions.length > this.minimumTx && !this.canMine) {
+    if (this.pendingTransactions.length >= this.minimumTx && !this.canMine) {
       return true;
     }
     return false;
@@ -424,7 +424,7 @@ class Blockchain {
   replaceChain(blockchain) {
     if (
       this.chainIsValid(blockchain) &&
-      this.blocks.length < blockchain.length
+      this.blocks.length <= blockchain.length
     ) {
       this.blocks = blockchain;
     }

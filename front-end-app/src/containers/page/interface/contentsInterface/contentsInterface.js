@@ -23,11 +23,24 @@ import { WalletModal, LogoutModal, SendTransactionModal } from "./modalOption";
 // import BalanceAccountIcon from '../../../../assets/Icon/balance_account.png';
 import BlockChainIcon from "../../../../assets/Icon/blockchain.png";
 import Wallet from "../../../../assets/Icon/wallet.png";
-import P2PButton from "./interfaceOptions/peers/peer";
 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function showToastSuccess(message) {
+  toast.success(message, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+}
 
 const enumState = {
   HIDDEN: "hidden",
@@ -53,9 +66,7 @@ const PORT = process.env.REACT_APP_API_PORT || 8080;
 console.log("PORT", PORT);
 const server = `http://localhost:${PORT}`;
 
-// let socket2;
 const PORT_P2P = process.env.REACT_APP_API_PORT_P2P || 8081;
-// const server2 = `http://localhost:${PORT_P2P}`;
 
 export const ContentsInterface = (props) => {
   const history = useHistory();
@@ -70,7 +81,6 @@ export const ContentsInterface = (props) => {
   const [stateMine, setStateMine] = useState(enumOptionMine.HIDDEN);
   const [newTx, setNewTx] = useState({ receive: "", amount: 0 });
   const [optionModal, setOptionModal] = useState(enumOptionModal.WALLET);
-  const [peerToPeer, setPeerToPeer] = useState(false);
 
   useEffect(() => {
     if (!(sessionStorage.getItem("auth") === "true")) {
@@ -90,18 +100,11 @@ export const ContentsInterface = (props) => {
       setPendingTx(blockchain.getPendingTransactions().length);
     });
 
-    // socket2.on(socketEvt.ADD_TRANSACTION, (transaction) => {
-    //   blockchain.addTransaction(transaction);
-    //   setPendingTx(blockchain.getPendingTransactions().length);
-    // });
-
     return () => {
       socket.disconnect();
       socket.off();
-      //   socket2.disconnect();
-      //   socket2.off();
     };
-  }, [peerToPeer]);
+  }, []);
 
   useEffect(() => {
     if (myWallet.publicKey !== "") {
@@ -128,6 +131,7 @@ export const ContentsInterface = (props) => {
 
   return (
     <div className="contents-interface">
+      <ToastContainer />
       <Modal
         state={modalState}
         onClickOverlay={() => {
@@ -315,6 +319,8 @@ function initPeerToPeer(
           await blockchain.addBlock(result);
 
           setStateMine(enumOptionMine.SUCCESS);
+          showToastSuccess("Mined successfully, + 1 MC");
+
           setPendingTx(blockchain.getPendingTransactions().length);
           setBalance(
             blockchain.getBalance(

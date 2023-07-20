@@ -239,8 +239,8 @@ export const Explorer = ({ pendingTx }) => {
                           ? new Date(item.timeStamp).toLocaleString()
                           : "Waiting..."}
                       </td>
-                      <td>{shortenAddress(item.from)}</td>
-                      <td>{shortenAddress(item.to)}</td>
+                      <td>{item.from ? shortenAddress(item.from) : ""}</td>
+                      <td>{item.to ? shortenAddress(item.to) : ""}</td>
                       <td>{+item.block !== -1 ? "Success" : "Pending"}</td>
                     </tr>
                   );

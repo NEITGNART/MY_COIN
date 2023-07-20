@@ -33,12 +33,14 @@ export const SendTransactionModal = (props) => {
       transaction.amount,
       priKey
     );
-
     const PORT = process.env.REACT_APP_API_PORT || 8080;
-    const P2P_PORT = process.env.REACT_APP_P2P_PORT || 5001;
+    const P2P_PORT = process.env.REACT_APP_API_PORT_P2P || 5001;
+
+    console.log("PORT", PORT);
+    console.log("P2P_PORT", P2P_PORT);
 
     const promises = [
-      axios.post(`http://localhost:${PORT} /transactions`, newTx),
+      axios.post(`http://localhost:${PORT}/transactions`, newTx),
       axios.post(`http://localhost:${P2P_PORT}/transactions`, newTx),
     ];
 

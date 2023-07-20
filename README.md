@@ -1,9 +1,8 @@
-# Open 2 terminal
+# Link demo 
 
-For each terminal run the following commane line:
-
-Ternimal 1:
-PORT=8080 P2P_PORT=5001 node app.js
-
-Ternimal 2:
-PORT=8080 P2P_PORT=5001 node app.js
+1. Phần giao diện và quá trình thao tác tương tự <https://www.myetherwallet.com/wallet/create>
+a. Tạo Ví(Wallet) : Private key/ Passphrase/....
+b. Xem thống kê tài khoản
+c. Gởi coin cho một địa chỉ khác
+d. Xem lịch sử giao dịch (build giống GUI <https://etherscan.io/>)
+2. Sử dụng thuật toán Proof Of Work/Proof Of Stake/
