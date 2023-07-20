@@ -1,4 +1,4 @@
-# Create a file .evn with the following
+# Create a file .env with the following
 
 ## Config for 1st localhost
 
