@@ -12,6 +12,7 @@ import {
   Dashboard,
   SendTransaction,
   HistoryTransaction,
+  Explorer,
 } from "./interfaceOptions";
 
 import { interfaceOptionContext } from "../../../../contexts/interfaceOptionContext";
@@ -56,19 +57,6 @@ const server = `http://localhost:${PORT}`;
 const PORT_P2P = process.env.REACT_APP_API_PORT_P2P || 8081;
 // const server2 = `http://localhost:${PORT_P2P}`;
 
-function showToast(message) {
-  toast(message, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
-}
-
 export const ContentsInterface = (props) => {
   const history = useHistory();
 
@@ -83,12 +71,6 @@ export const ContentsInterface = (props) => {
   const [newTx, setNewTx] = useState({ receive: "", amount: 0 });
   const [optionModal, setOptionModal] = useState(enumOptionModal.WALLET);
   const [peerToPeer, setPeerToPeer] = useState(false);
-
-  const changePeerToPeer = (toast) => {
-    showToast("Peer to peer is " + (!peerToPeer ? "on" : "off"));
-    console.log("peerToPeer", peerToPeer);
-    setPeerToPeer(!peerToPeer);
-  };
 
   useEffect(() => {
     if (!(sessionStorage.getItem("auth") === "true")) {
@@ -258,6 +240,7 @@ export const ContentsInterface = (props) => {
               return (
                 <SendTransaction
                   transaction={newTx}
+                  setBalance={setBalance}
                   setTransaction={setNewTx}
                   walletBalance={balance}
                   openModal={() => {
@@ -274,12 +257,7 @@ export const ContentsInterface = (props) => {
                 ></HistoryTransaction>
               );
             case 4:
-              return (
-                <HistoryTransaction
-                  stateMine={stateMine}
-                  pendingTx={pendingTx}
-                ></HistoryTransaction>
-              );
+              return <Explorer pendingTx={pendingTx}></Explorer>;
             default:
               break;
           }

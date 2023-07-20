@@ -79,6 +79,10 @@ app.post("/transactions/buycoin", async (req, res) => {
   res.json({ message: "add transaction success" }).end();
 });
 
+app.get("/all-transactions", (req, res) => {
+  res.json(blockchain.getAllTransactions());
+});
+
 app.get("/transactions/:address", (req, res) => {
   res.json(blockchain.getTransactionsByAddress(req.params.address));
 });
