@@ -14,6 +14,20 @@ const enumState = {
   VISIBLE: "visible",
 };
 
+function shortenAddress(address, length = 5) {
+  if (address.length < 20) return address;
+  return (
+    "0x" +
+    address.substring(0, 5) +
+    "..." +
+    address.substring(address.length - length)
+  );
+}
+
+function shortenHash(hash) {
+  return "0x" + hash.substring(0, 10) + "...";
+}
+
 const PORT = process.env.REACT_APP_API_PORT || 8080;
 
 export const HistoryTransaction = ({ pendingTx, stateMine }) => {
@@ -81,6 +95,8 @@ export const HistoryTransaction = ({ pendingTx, stateMine }) => {
               <th>Txn</th>
               <th>Amount</th>
               <th>Date Time</th>
+              <th>From</th>
+              <th>To</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -109,6 +125,8 @@ export const HistoryTransaction = ({ pendingTx, stateMine }) => {
                         ? new Date(item.timeStamp).toLocaleString()
                         : "Waiting..."}
                     </td>
+                    <td>{item.from ? shortenAddress(item.from) : ""}</td>
+                    <td>{item.to ? shortenAddress(item.to) : ""}</td>
                     <td>{+item.block !== -1 ? "Success" : "Pending"}</td>
                   </tr>
                 );

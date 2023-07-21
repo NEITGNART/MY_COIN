@@ -307,6 +307,7 @@ function initPeerToPeer(
           myWallet.publicKey.substring(2, myWallet.publicKey.length)
         )
       );
+
       const newblock = blockchain.proofOfWork(
         index,
         transactions,
